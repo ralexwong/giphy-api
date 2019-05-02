@@ -1,7 +1,7 @@
 .container {
-    margin:0 0 0 0px;
-    max-width:100%;
-    padding:0 0 0 50px;
+    margin:0 0 0 50px;
+    max-width: 100%;
+    padding:0 0 0 0px;
 }
 
 
@@ -10,6 +10,8 @@
 }
 
 .rating {
+    font-size:20px;
+    font-weight:bold;
     margin: 0 0 5px 0;
 }
 
@@ -19,4 +21,15 @@ h4 {
 
 #gif-input {
     margin: 0 0 10px 0;
+}
+
+.not-gifs {
+    padding:0;
+    position: relative;
+    max-width: 450px;
+    right:5%;
+}
+
+#gifs {
+    vertical-align: top;
 }

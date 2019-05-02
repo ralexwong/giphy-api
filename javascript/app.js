@@ -1,17 +1,17 @@
 $(document).ready(function(){
 
     // array of seahawk players
-    var players = ["kam chancellor", "russell wilson", "richard sherman", "marshawn lynch","pete carroll","earl thomas","bobby wagner","cliff avril","tyler lockett","doug baldwin"];
+    var topics = ["kam chancellor", "russell wilson", "richard sherman", "marshawn lynch","pete carroll","earl thomas","bobby wagner","cliff avril","tyler lockett","doug baldwin"];
 
     // create array to store new submissions
     var userSubmissions = [];
     
-    // creates buttons from players array
+    // creates buttons from topics array
     function intitialButtons() {
-        for (var i = 0; i < players.length; i++){
+        for (var i = 0; i < topics.length; i++){
             var gifButton = $("<button>");
             gifButton.addClass("btn btn-primary");
-            gifButton.text(players[i]);
+            gifButton.text(topics[i]);
             $("#gif-list").append(gifButton);
         }
     }
@@ -25,15 +25,16 @@ $(document).ready(function(){
     $("#submit-button").on("click", function() {
         event.preventDefault();
 
-        var newButton = $("<button>");
+        var newButton = $("<button>"); 
         var text = $("#gif-input").val();
 
         // checks if the text has already been submitted to the gif list
-        if (players.includes(text)) {
+        if (topics.includes(text)) {
             return;
         }
 
-        if (userSubmissions.includes(text)) {
+        // checks if the user submmited a blank value
+        if (text === "") {
             return;
         }
 
@@ -45,12 +46,14 @@ $(document).ready(function(){
         $("#gif-list").append(newButton);
 
 
-        userSubmissions.push(text)
+        topics.push(text);
+        console.log(topics);
         }
+
     });
 
     // Event listener for our gif-button
-    $(".btn").on("click", function(){
+    $(document).on("click",".btn", function(){
         event.preventDefault();
 
         // empties last list of gifs
@@ -70,15 +73,21 @@ $(document).ready(function(){
 
             for (var i = 0; i < response.data.length; i++) {
 
+
+                var bigDiv = $("<div>");
+                bigDiv.attr("id", "big-div-" + i)
+
                 var ratingDiv = $("<p>");
                 var rating = response.data[i].rating;
 
                 ratingDiv.addClass("rating");
 
-                $("#gifs").append(rating);
+                $(ratingDiv).append("Rating: " + rating);
+
+                $(bigDiv).append(ratingDiv);
 
                 // grabs the gif url from the json
-                var gifURL = response.data[i].image_original_url;
+                var gifURL = response.data[i].images.downsized.url;
 
                 // Creating and storing an image tag
                 var gifImage = $("<img>");
@@ -88,16 +97,15 @@ $(document).ready(function(){
                 gifImage.attr("alt", "gif");
 
                 // Prepending the catImage to the images div
-                $("#gifs").append(gifImage);
+                $(bigDiv).append(gifImage);
+
+                $("#gifs").append(bigDiv);
             }
 
-            
-
-
-
-
-    });
+        });
 
     });
 
 });
+
+
