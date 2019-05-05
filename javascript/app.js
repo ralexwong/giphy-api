@@ -1,10 +1,7 @@
 $(document).ready(function(){
 
     // array of seahawk players
-    var topics = ["kam chancellor", "russell wilson", "richard sherman", "marshawn lynch","pete carroll","earl thomas","bobby wagner","cliff avril","tyler lockett","doug baldwin"];
-
-    // create array to store new submissions
-    var userSubmissions = [];
+    var topics = ["kam chancellor", "russell wilson", "richard sherman", "marshawn lynch","pete carroll","earl thomas","bobby wagner","tyler lockett","doug baldwin"];
     
     // creates buttons from topics array
     function intitialButtons() {
@@ -20,8 +17,7 @@ $(document).ready(function(){
     intitialButtons();
 
 
-
-    // creates new button with text based on what user typed
+    // submit button on click event handler
     $("#submit-button").on("click", function() {
         event.preventDefault();
 
@@ -40,14 +36,13 @@ $(document).ready(function(){
 
         else {
             
-        //adds a new button to the gif list 
-        newButton.text(text);
-        newButton.addClass("btn btn-primary");
-        $("#gif-list").append(newButton);
+            //adds a new button to the gif list 
+            newButton.text(text);
+            newButton.addClass("btn btn-primary");
+            $("#gif-list").append(newButton);
 
-
-        topics.push(text);
-        console.log(topics);
+            topics.push(text);
+            console.log(topics);
         }
 
     });
@@ -73,38 +68,61 @@ $(document).ready(function(){
 
             for (var i = 0; i < response.data.length; i++) {
 
-
+                // create a div for each gif and rating to fit in
                 var bigDiv = $("<div>");
                 bigDiv.attr("id", "big-div-" + i)
 
+                // create <p> for rating 
                 var ratingDiv = $("<p>");
                 var rating = response.data[i].rating;
 
+                // append to bigDiv
                 ratingDiv.addClass("rating");
-
                 $(ratingDiv).append("Rating: " + rating);
-
                 $(bigDiv).append(ratingDiv);
 
                 // grabs the gif url from the json
-                var gifURL = response.data[i].images.downsized.url;
+                var stillGif = response.data[i].images.downsized_still.url;
+
+                // grabs the animated gif url
+                var animatedGif = response.data[i].images.downsized.url;
 
                 // Creating and storing an image tag
                 var gifImage = $("<img>");
 
-                // Setting the gifImage src attribute to gifUrl
-                gifImage.attr("src", gifURL);
+                // Setting the gifImage attributes
+                gifImage.attr("src", stillGif);
+                gifImage.attr("data-still", stillGif);
+                gifImage.attr("data-animate", animatedGif);
+                gifImage.attr("data-state", "still");
                 gifImage.attr("alt", "gif");
 
                 // Prepending the catImage to the images div
                 $(bigDiv).append(gifImage);
 
+                // append the bigDiv to gifs
                 $("#gifs").append(bigDiv);
             }
 
         });
 
     });
+
+    $(document).on("click","img", function(){
+
+        var state = $(this).attr("data-state");
+
+        if (state === "still") {
+            $(this).attr("src", $(this).attr("data-animate"));
+            $(this).attr("data-state", "animate");
+        } 
+        
+        else {
+            $(this).attr("src", $(this).attr("data-still"));
+            $(this).attr("data-state", "still");
+        }
+
+    });    
 
 });
 

@@ -1,5 +1,5 @@
 .container {
-    margin:0 0 0 50px;
+    margin:0 0 0 20px;
     max-width: 100%;
     padding:0 0 0 0px;
 }
@@ -10,9 +10,10 @@
 }
 
 .rating {
-    font-size:20px;
-    font-weight:bold;
+    font-size: 20px;
+    font-weight: bold;
     margin: 0 0 5px 0;
+    max-width: 100px;
 }
 
 h4 {
@@ -27,9 +28,10 @@ h4 {
     padding:0;
     position: relative;
     max-width: 450px;
-    right:5%;
+    right:10%;
 }
 
-#gifs {
-    vertical-align: top;
+img {
+    height:300px;
+    width:350px;
 }
